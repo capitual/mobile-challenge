@@ -36,6 +36,8 @@ By clicking on any of the heroes on the home screen we will see more details, su
 
 ## Technical requirements
 
+A API está disponivel aqui: `https://akabab.github.io/superhero-api/api/
+
 Use the following technologies:
 
  - [ ] React Native

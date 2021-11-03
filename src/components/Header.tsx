@@ -11,37 +11,62 @@ import { Feather } from '@expo/vector-icons';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 
 import logoSuperhero from '../assets/superhero.png';
-import logoSH from '../assets/sh.png';
+
 import colors from '../styles/colors';
 
 interface HeaderProps {
   isWelcome?: boolean;
+  isHome?: boolean;
   onReturn?: () => void;
+  openFavorites?: () => void;
 }
 
-export function Header({ isWelcome, onReturn }: HeaderProps) {
+export function Header({
+  isWelcome, isHome, onReturn, openFavorites,
+}: HeaderProps) {
   return (
-    <View style={
-      isWelcome
-        ? styles.containerPrimary
-        : styles.containerSecondary
-      }
-    >
-      <Image
-        source={logoSuperhero}
-        style={styles.superhero}
-      />
-
-      {!isWelcome && (
-        <TouchableOpacity
-          style={styles.button}
-          activeOpacity={0.7}
-          onPress={onReturn}
-        >
-          <Feather name="arrow-left-circle" style={styles.buttonIcon} />
-        </TouchableOpacity>
+    <>
+      {isWelcome && (
+      <View style={styles.containerPrimary}>
+        <Image
+          source={logoSuperhero}
+          style={styles.superhero}
+        />
+      </View>
       )}
-    </View>
+
+      {isHome && (
+        <View style={styles.containerSecondary}>
+          <Image
+            source={logoSuperhero}
+            style={styles.superhero}
+          />
+          <TouchableOpacity
+            style={styles.button}
+            activeOpacity={0.7}
+            onPress={openFavorites}
+          >
+            <Feather name="star" style={styles.buttonIcon} />
+          </TouchableOpacity>
+        </View>
+      )}
+
+      {!isWelcome && !isHome && (
+        <View style={styles.containerSecondary}>
+          <Image
+            source={logoSuperhero}
+            style={styles.superhero}
+          />
+          <TouchableOpacity
+            style={styles.button}
+            activeOpacity={0.7}
+            onPress={onReturn}
+          >
+            <Feather name="arrow-left-circle" style={styles.buttonIcon} />
+          </TouchableOpacity>
+        </View>
+      )}
+    </>
   );
 }
 

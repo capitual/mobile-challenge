@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Welcome } from '../pages/Welcome';
 import { Home } from '../pages/Home';
 import { Hero } from '../pages/Hero';
+import { Favorites } from '../pages/Favorites';
 
 import colors from '../styles/colors';
 
@@ -32,6 +33,10 @@ function StackRoutes() {
       <Stack.Screen
         name="Hero"
         component={Hero}
+      />
+      <Stack.Screen
+        name="Favorites"
+        component={Favorites}
       />
     </Stack.Navigator>
   );

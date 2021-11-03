@@ -8,33 +8,45 @@ import {
   FlatList,
 } from 'react-native';
 
-import { useSuperheroes } from '../hooks/useSuperheroes';
-
 import { Header } from '../components/Header';
 import { Load } from '../components/Load';
-import { SearchInput } from '../components/SearchInput';
 import Pagination from '../components/Pagination';
 import { HomeHeroCard } from '../components/HomeHeroCard';
 import { EmptyList } from '../components/EmptyList';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
+import { loadFavorites } from '../hooks/useFavorites';
 
-export function Home({ navigation }: Props) {
+type Props = NativeStackScreenProps<RootStackParamList, 'Favorites'>;
+
+export function Favorites({ navigation }: Props) {
+  const [favorites, setFavorites] = useState<SuperheroListProps[]>([]);
   const [filteredSuperheroes, setFilteredSuperheroes] = useState<SuperheroListProps[]>([]);
   const [pageSuperheroes, setPageSuperheroes] = useState<SuperheroListProps[]>([]);
   const [page, setPage] = useState(1);
-  const [searchName, setSearchName] = useState<string>('');
   const [isLoading, setIsLoading] = useState(true);
   const flatlistRef = useRef<FlatList>(null);
 
-  const { superheroes } = useSuperheroes();
+  // Get favorites from Local Storage
+  useEffect(() => {
+    async function loadStorageData() {
+      const storage = await loadFavorites();
+
+      setFavorites(storage);
+    }
+
+    const willFocusSubscription = navigation.addListener('focus', () => {
+      loadStorageData();
+    });
+
+    return willFocusSubscription;
+  }, []);
 
   // Set filtered to all superheroes after load
   useEffect(() => {
-    if (superheroes.length > 0) {
-      setFilteredSuperheroes(superheroes);
+    if (favorites.length > 0) {
+      setFilteredSuperheroes(favorites);
     }
-  }, [superheroes]);
+  }, [favorites]);
 
   // Handle page change
   function handlePageChange(selectedPage: number) {
@@ -53,9 +65,9 @@ export function Home({ navigation }: Props) {
     filteredSuperheroes
       .slice(
         ((page - 1) * (10)),
-        ((page * 10) - 1) < superheroes.length
+        ((page * 10) - 1) < favorites.length
           ? (page * 10)
-          : (superheroes.length),
+          : (favorites.length),
       )
       .map((hero) => setPageSuperheroes((state) => [...state, hero]));
 
@@ -68,21 +80,9 @@ export function Home({ navigation }: Props) {
     }
   }, [pageSuperheroes]);
 
-  // Handle search by name
-  useEffect(() => {
-    setFilteredSuperheroes([]);
-    setPage(1);
-
-    superheroes
-      .filter((hero) => hero.name.includes(searchName))
-      .map((filteredHero) => setFilteredSuperheroes((state) => [
-        ...state,
-        filteredHero,
-      ]));
-  }, [searchName]);
-
-  function handleOpenFavorites() {
-    navigation.navigate('Favorites');
+  // Return to previous page
+  function handleReturn() {
+    navigation.goBack();
   }
 
   if (isLoading) {
@@ -91,9 +91,7 @@ export function Home({ navigation }: Props) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header isHome openFavorites={handleOpenFavorites} />
-
-      <SearchInput setSearchName={setSearchName} />
+      <Header onReturn={handleReturn} />
 
       <View style={styles.wrapper}>
         <>
@@ -115,7 +113,6 @@ export function Home({ navigation }: Props) {
                 />
               )}
               showsVerticalScrollIndicator={false}
-              ListEmptyComponent={<EmptyList />}
             />
           </View>
         </>

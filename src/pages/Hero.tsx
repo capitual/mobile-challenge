@@ -5,17 +5,19 @@ import {
   SafeAreaView,
   View,
   Text,
-  Image,
   StyleSheet,
-  Dimensions,
+  TouchableOpacity,
 } from 'react-native';
 
 import { ScrollView } from 'react-native-gesture-handler';
+
 import { Header } from '../components/Header';
 import { Load } from '../components/Load';
 import { HeroAppearanceCard } from '../components/HeroAppearanceCard';
 import { HeroPowerStatsCard } from '../components/HeroPowerStatsCard';
 import { HeroBiographyCard } from '../components/HeroBiographyCard';
+
+import { loadFavorites, removeFromFavorites, saveToFavorites } from '../hooks/useFavorites';
 
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
@@ -28,6 +30,7 @@ export function Hero({ route, navigation }: Props) {
   const [hero, setHero] = useState<SuperheroProps>({} as SuperheroProps);
   const [nameColor, setNameColor] = useState(colors.yellow);
   const [isLoading, setIsLoading] = useState(true);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   // Get hero ID from params
   const {
@@ -50,6 +53,20 @@ export function Hero({ route, navigation }: Props) {
   function handleReturn() {
     navigation.goBack();
   }
+
+  useEffect(() => {
+    async function loadStorageData() {
+      const favorites = await loadFavorites();
+
+      if (favorites.filter((favorite) => favorite.id === heroId).length > 0) {
+        setIsFavorite(true);
+      }
+    }
+
+    setTimeout(() => {
+      loadStorageData();
+    }, 1000);
+  }, [heroId, isFavorite]);
 
   // Call fetch function on page load
   useEffect(() => {
@@ -89,6 +106,33 @@ export function Hero({ route, navigation }: Props) {
         </Text>
       </View>
 
+      {isFavorite ? (
+        <View style={styles.favoriteButtonBox}>
+          <TouchableOpacity
+            style={styles.favoriteRemoveButton}
+            onPress={() => {
+              removeFromFavorites(heroId);
+              setIsFavorite(false);
+            }}
+          >
+            <Text style={styles.buttonText}>Remove from Favorite</Text>
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <View style={styles.favoriteButtonBox}>
+          <TouchableOpacity
+            style={styles.favoriteAddButton}
+            onPress={() => {
+              saveToFavorites(hero);
+              setIsFavorite(true);
+            }}
+          >
+            <Text style={styles.buttonText}>Add to Favorites</Text>
+          </TouchableOpacity>
+        </View>
+
+      )}
+
       <ScrollView>
         <View style={styles.wrapper}>
           <HeroAppearanceCard appearance={hero.appearance} image={hero.images.md} />
@@ -105,6 +149,37 @@ export function Hero({ route, navigation }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  favoriteButtonBox: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    width: '100%',
+    height: 40,
+    backgroundColor: colors.background_secondary,
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 1,
+  },
+  favoriteAddButton: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: colors.green,
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 2,
+  },
+  favoriteRemoveButton: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: colors.red,
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 2,
+  },
+  buttonText: {
+    fontSize: 20,
+    color: '#000',
   },
   nameBox: {
     width: '100%',

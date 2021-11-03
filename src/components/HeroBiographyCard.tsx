@@ -3,7 +3,6 @@ import React from 'react';
 import {
   View,
   Text,
-  Image,
   StyleSheet,
 } from 'react-native';
 import colors from '../styles/colors';
@@ -66,6 +65,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginTop: 20,
     padding: 10,
+    marginBottom: 40,
   },
   appearanceItem: {
     width: '100%',

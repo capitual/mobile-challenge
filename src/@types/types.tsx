@@ -38,7 +38,21 @@ type SuperheroProps = {
 type RootStackParamList = {
   Welcome: undefined;
   Home: undefined;
+  Favorites: undefined;
   Hero: {
     heroId: number;
   };
+};
+
+type SuperheroListProps = {
+  id: number;
+  name: string;
+  publisher: string;
+  image: string;
+};
+
+type FavoriteStorageProps = {
+  [id: string]: {
+    data: SuperheroListProps,
+  }
 };

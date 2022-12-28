@@ -1,19 +1,24 @@
 import React from 'react';
 import { StatusBar } from 'react-native';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import Routes from './routes';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { ApolloProvider } from '@apollo/client';
+import { client, Colors } from './config';
+import { Routes } from './routes';
 
-function App() {
+export default function App() {
   return (
-    <SafeAreaProvider style={{ flex: 1 }}>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <StatusBar translucent barStyle="light-content" />
+    <SafeAreaProvider>
+      <SafeAreaView style={{ flex: 1 }}>
+        <ApolloProvider client={client}>
+          <StatusBar
+            translucent
+            barStyle="light-content"
+            backgroundColor={Colors.BLACK}
+          />
 
-        <Routes />
-      </GestureHandlerRootView>
+          <Routes />
+        </ApolloProvider>
+      </SafeAreaView>
     </SafeAreaProvider>
   );
 }
-
-export default App;

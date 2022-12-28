@@ -1,12 +1,12 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Home from '../../screens/public/Home';
+import { Home } from '../../screens';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
-export default function Public() {
+export function Public() {
   return (
-    <Navigator initialRouteName="Home">
+    <Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
       <Screen name="Home" component={Home} />
     </Navigator>
   );

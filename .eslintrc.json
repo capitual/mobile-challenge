@@ -1,6 +1,12 @@
 {
   "root": true,
-  "extends": ["airbnb", "airbnb-typescript"],
+  "extends": [
+    "airbnb", 
+    "airbnb-typescript",
+    "airbnb/hooks", 
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking"
+  ],
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint"],
   "parserOptions": {
@@ -10,6 +16,10 @@
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "rules": {
+        "react/jsx-props-no-spreading": ["error", {
+          "custom": "ignore"
+        }],
+        "import/prefer-default-export": 0,
         "linebreak-style": 0,
         "@typescript-eslint/no-shadow": ["error"],
         "no-shadow": "off",

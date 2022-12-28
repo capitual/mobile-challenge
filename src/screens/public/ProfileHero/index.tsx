@@ -1,15 +1,16 @@
 import { useQuery } from '@apollo/client';
 import { useNavigation } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
+import { AllHeroes } from '../../../@types';
 import {
   Button,
   CardHero,
   InputSearch,
   Text,
 } from '../../../components';
-import { client, Colors, SearchIcon, Typography } from '../../../config';
+import { Colors, SearchIcon, Typography } from '../../../config';
 import { ALL_HEROES } from '../../../graphql/queries';
 import {
   Container,
@@ -20,11 +21,7 @@ import {
 } from './styles';
 
 export function ProfileHero() {
-  const {data, error, loading} = useQuery(ALL_HEROES)
-
-  console.log(loading)
-  console.log(loading ? null : data.all[0]);
-  console.log(error);
+  const {data, error, loading} = useQuery<AllHeroes>(ALL_HEROES)
 
   const navigation = useNavigation();
 

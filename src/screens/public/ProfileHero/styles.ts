@@ -10,15 +10,16 @@ export const Container = styled.KeyboardAvoidingView.attrs({
 
   width: 100%;
 
-  margin-bottom: ${RFValue(16)}px;
-
+  
   padding: ${RFValue(0)}px ${RFValue(20)}px ${RFValue(24)}px;
-
+  
   background-color: ${Colors.BLACK};
-`;
+  `;
 
 export const Content = styled.View`
   flex: 1;
+  
+  margin-bottom: ${RFValue(16)}px;
 `;
 
 export const HeaderContainer = styled.View`
@@ -34,6 +35,7 @@ export const HeroesList = styled.FlatList.attrs({
   ListFooterComponentStyle: {
     marginTop: RFValue(6),
   },
+  showsVerticalScrollIndicator: false,
 })`
   flex: 1;
 

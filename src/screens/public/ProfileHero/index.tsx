@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
@@ -9,7 +9,6 @@ import {
   Text,
 } from '../../../components';
 import { Colors, SearchIcon, Typography } from '../../../config';
-import { HEROES_QUERY } from '../../../queries';
 import {
   Container,
   Content,
@@ -18,16 +17,12 @@ import {
   ListEmptyWrapper,
 } from './styles';
 
-export function Home() {
-  const { data, error, loading } = useQuery(HEROES_QUERY);
-
-  console.log(data);
-  console.log(error);
-  console.log(loading);
+export function ProfileHero() {
+  const navigation = useNavigation();
 
   const [searchText, setSearchText] = useState<string>('');
 
-  const [heroes, setHeroes] = useState([]);
+  const [heroes, setHeroes] = useState([0]);
 
   const [inputIsFocused, setInputIsFocused] = useState<boolean>(false);
 
@@ -74,6 +69,7 @@ export function Home() {
             data={heroes}
             renderItem={() => (
               <CardHero
+                onPress={() => navigation.navigate('ProfileHeroDetails' as never)}
                 fullName="Daniel Sansão Araldi"
                 name="Daniel"
                 image="https://cdn.jsdelivr.net/gh/akabab/superhero-api@0.3.0/api/images/sm/731-zoom.jpg"

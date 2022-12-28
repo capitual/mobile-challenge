@@ -1,19 +1,13 @@
-import {
-  ApolloClient,
-  HttpLink,
-  InMemoryCache,
-} from '@apollo/client';
+import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { RestLink } from 'apollo-link-rest';
+
 import { URL } from './constants';
 
-const httpLink = new HttpLink({
+const httpLink = new RestLink({
   uri: URL,
   headers: {
     'Content-Type': 'application/json',
   },
-  fetchOptions: {
-    method: 'GET',
-  },
-  useGETForQueries: true,
 });
 
 export const client = new ApolloClient({

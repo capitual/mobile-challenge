@@ -1,4 +1,4 @@
-import { Hero } from '..';
+import { Hero } from '../graphql';
 
 export interface ProfileHeroRenderItem {
   item: Hero;

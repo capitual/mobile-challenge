@@ -111,7 +111,7 @@ export function ProfileHeroDetails() {
 
               <HeroTrait icon={TwoFaceIcon} value={hero.biography.alignment} />
 
-              <HeroTrait icon={AlienIcon} value={hero.appearance.race} />
+              <HeroTrait icon={AlienIcon} value={hero.appearance.race || '-'} />
             </HeroTraitWrapper>
 
             <Text

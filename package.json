@@ -17,6 +17,7 @@
     "graphql": "^16.6.0",
     "graphql-tag": "^2.12.6",
     "metro-config": "^0.73.6",
+    "native-base": "^3.4.25",
     "qs": "^6.11.0",
     "react": "18.1.0",
     "react-native": "0.70.6",

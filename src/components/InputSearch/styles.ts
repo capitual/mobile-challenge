@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { Colors, Typography } from '../../config';
 
-export const InputContainer = styled.View`
+export const Wrapper = styled.View`
   flex-direction: row;
 
   width: 100%;

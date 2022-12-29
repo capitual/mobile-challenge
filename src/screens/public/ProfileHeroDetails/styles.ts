@@ -7,6 +7,8 @@ import { Colors } from '../../../config';
 export const Container = styled.ScrollView.attrs({
   showsVerticalScrollIndicator: false,
   contentContainerStyle: {
+    flexGrow: 1,
+
     width: '100%',
 
     paddingBottom: RFValue(44),
@@ -89,3 +91,15 @@ export const HeroTraitWrapper = styled.View`
 
   margin-bottom: ${RFValue(40)}px;
 `;
+
+export const LoadingWrapper = styled.View`
+  flex: 1;
+
+  justify-content: center;
+  align-items: center;
+`;
+
+export const Loading = styled.ActivityIndicator.attrs({
+  color: Colors.GRAY,
+  size: 'large',
+})``;

@@ -19,7 +19,7 @@ import {
   ListEmptyWrapper,
   HeroesList,
 } from './styles';
-import { AllHeroes, Hero, ProfileHeroRenderItem } from '../../../@types';
+import { AllHeroes, Heroes, ProfileHeroRenderItem } from '../../../@types';
 
 export function ProfileHero() {
   const { data, error, loading } = useQuery<AllHeroes>(ALL_HEROES);
@@ -30,9 +30,9 @@ export function ProfileHero() {
   const [itemsForViewing, setItemsForViewing] = useState<number>(10);
   const [inputIsFocused, setInputIsFocused] = useState<boolean>(false);
 
-  const [heroes, setHeroes] = useState<Hero[]>([]);
+  const [heroes, setHeroes] = useState<Heroes[]>([]);
 
-  function filterHeroes(): Hero[] {
+  function filterHeroes(): Heroes[] {
     if (!data || error) return [];
     if (!searchText) return data.all;
 
@@ -48,7 +48,7 @@ export function ProfileHero() {
   function onCloseInput(): void {
     setSearchText('');
 
-    if (data) {
+    if (data && data.all) {
       setHeroes(data.all);
     } else {
       setHeroes([]);
@@ -70,7 +70,7 @@ export function ProfileHero() {
     setHeroes(allHeroes);
   }
 
-  const keyExtractor = useCallback((item: Hero) => item.id.toString(), []);
+  const keyExtractor = useCallback((item: Heroes) => item.id.toString(), []);
 
   const renderItem = useCallback(({ item }: ProfileHeroRenderItem) => (
     <CardHero
@@ -85,12 +85,15 @@ export function ProfileHero() {
   ), [navigation]);
 
   useEffect(() => {
-    if (data && !loading) {
+    const existsData = (data && data?.all) && !loading && !error;
+
+    if (existsData) {
       setHeroes(data.all);
-    } else {
-      setHeroes([]);
+      return;
     }
-  }, [data, loading]);
+
+    setHeroes([]);
+  }, [data, loading, error]);
 
   return (
     <Container>

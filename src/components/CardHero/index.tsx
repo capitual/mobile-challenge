@@ -5,7 +5,7 @@ import { Colors, SimpleArrowRightIcon, Typography } from '../../config';
 import { Text } from '../Text';
 import {
   ArrowRightWrapper,
-  Container,
+  Wrapper,
   Image,
   ImageContainer,
   InformationContainer,
@@ -19,7 +19,7 @@ export function CardHero({
   ...props
 }: CardHeroProps) {
   return (
-    <Container {...props} activeOpacity={0.75}>
+    <Wrapper {...props} activeOpacity={0.75}>
       <InformationContainer>
         <ImageContainer>
           <Image source={{ uri: image }} />
@@ -58,6 +58,6 @@ export function CardHero({
           fill={Colors.WHITE_10}
         />
       </ArrowRightWrapper>
-    </Container>
+    </Wrapper>
   );
 }

@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Alert } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { RFValue } from 'react-native-responsive-fontsize';
 
+import { useQuery } from '@apollo/client';
 import {
   CircularProgress,
   HeroDetailRow,
@@ -26,132 +28,165 @@ import {
   HeroCharacteristicsWrapper,
   HeroNameWrapper,
   HeroTraitWrapper,
+  Loading,
+  LoadingWrapper,
 } from './styles';
-import { Hero } from '../../../@types';
+import { GetHero, Hero, Heroes } from '../../../@types';
+import { GET_HERO } from '../../../graphql/queries';
 
 export function ProfileHeroDetails() {
   const navigation = useNavigation();
   const route = useRoute();
 
-  const params = route.params as Hero;
+  const [hero, setHero] = useState<Hero>({} as Hero);
+
+  const params = route.params as Heroes;
+
+  const { data, error, loading } = useQuery<GetHero>(GET_HERO, {
+    variables: { heroId: params.id.toString() },
+  });
+
+  useEffect(() => {
+    const existsData = (data && data?.getHero) && !loading && !error;
+
+    if (existsData) {
+      setHero(data.getHero);
+      return;
+    }
+
+    setHero({} as Hero);
+  }, [data, loading, error]);
+
+  if (error) {
+    navigation.goBack();
+    Alert.alert('Super Hero', 'Ops! Parece que não conseguimos buscar esse herói para você :(');
+  }
 
   return (
     <Container>
-      <HeroBackgroundImage
-        source={{ uri: params.images.lg }}
-      >
-        <Gradient>
-          <GoBackButton onPress={navigation.goBack} activeOpacity={0.75}>
-            <ArrowLeftIcon
-              width={RFValue(20)}
-              height={RFValue(12)}
-              fill={Colors.WHITE}
-            />
-          </GoBackButton>
+      {hero?.id && !loading ? (
+        <>
+          <HeroBackgroundImage
+            source={{ uri: hero.images.lg }}
+          >
+            <Gradient>
+              <GoBackButton onPress={navigation.goBack} activeOpacity={0.75}>
+                <ArrowLeftIcon
+                  width={RFValue(20)}
+                  height={RFValue(12)}
+                  fill={Colors.WHITE}
+                />
+              </GoBackButton>
 
-          <HeroNameWrapper>
-            {params.biography.fullName && (
-              <Text
-                marginBottom={8}
-                fontSize={16}
-                fontFamily={Typography.INTER_REGULAR}
-                lineHeight={21}
-                numberOfLines={1}
-                ellipsizeMode="tail"
-              >
-                {params.biography.fullName}
-              </Text>
-            )}
+              <HeroNameWrapper>
+                {hero.biography.fullName && (
+                <Text
+                  marginBottom={8}
+                  fontSize={16}
+                  fontFamily={Typography.INTER_REGULAR}
+                  lineHeight={21}
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
+                >
+                  {hero.biography.fullName}
+                </Text>
+                )}
+
+                <Text
+                  fontSize={48}
+                  fontFamily={Typography.INTER_BOLD}
+                  lineHeight={57}
+                >
+                  {hero.name}
+                </Text>
+              </HeroNameWrapper>
+            </Gradient>
+          </HeroBackgroundImage>
+
+          <HeroCharacteristicsWrapper>
+            <HeroTraitWrapper>
+              <HeroTrait icon={ScaleIcon} value={hero.appearance.height[1]} />
+
+              <HeroTrait icon={WeightIcon} value={hero.appearance.weight[1]} />
+
+              <HeroTrait icon={TwoFaceIcon} value={hero.biography.alignment} />
+
+              <HeroTrait icon={AlienIcon} value={hero.appearance.race} />
+            </HeroTraitWrapper>
 
             <Text
-              fontSize={48}
-              fontFamily={Typography.INTER_BOLD}
-              lineHeight={57}
+              fontSize={16}
+              fontFamily={Typography.INTER_REGULAR}
+              lineHeight={21}
+              color={Colors.GRAY}
+              textAlign="justify"
             >
-              {params.name}
+              {hero.name}
+              {' '}
+              {hero.biography.fullName ? `(${hero.biography.fullName}) ` : ' '}
+              is a
+              {' '}
+              {hero.biography.publisher}
+              {hero.biography.firstAppearance !== '-'
+                ? ` character who first appeared in "${hero.biography.firstAppearance}".`
+                : '.'}
+              {hero.work.base !== '-' && ` Is based on ${hero.work.base}.`}
             </Text>
-          </HeroNameWrapper>
-        </Gradient>
-      </HeroBackgroundImage>
 
-      <HeroCharacteristicsWrapper>
-        <HeroTraitWrapper>
-          <HeroTrait icon={ScaleIcon} value={params.appearance.height[1]} />
+            {hero.connections.groupAffiliation !== '-' && (
+            <Text
+              marginTop={32}
+              fontSize={16}
+              fontFamily={Typography.INTER_REGULAR}
+              lineHeight={21}
+              color={Colors.GRAY}
+              textAlign="justify"
+            >
+              Among his connections,
+              {' '}
+              {hero.name}
+              {' '}
+              has affiliation in the group(s):
+              {' '}
+              {hero.connections.groupAffiliation}
+              .
+            </Text>
+            )}
 
-          <HeroTrait icon={WeightIcon} value={params.appearance.weight[1]} />
+            <CircularProgressWrapper>
+              <CircularProgress title="Intelligence" value={hero.powerstats.intelligence} />
 
-          <HeroTrait icon={TwoFaceIcon} value={params.biography.alignment} />
+              <CircularProgress title="Strength" value={hero.powerstats.strength} />
 
-          <HeroTrait icon={AlienIcon} value={params.appearance.race} />
-        </HeroTraitWrapper>
+              <CircularProgress title="Speed" value={hero.powerstats.speed} />
 
-        <Text
-          fontSize={16}
-          fontFamily={Typography.INTER_REGULAR}
-          lineHeight={21}
-          color={Colors.GRAY}
-          textAlign="justify"
-        >
-          {params.name}
-          {' '}
-          {params.biography.fullName ? `(${params.biography.fullName}) ` : ' '}
-          is a
-          {' '}
-          {params.biography.publisher}
-          {params.biography.firstAppearance !== '-'
-            ? ` character who first appeared in "${params.biography.firstAppearance}".`
-            : '.'}
-          {params.work.base !== '-' && ` Is based on ${params.work.base}.`}
-        </Text>
+              <CircularProgress title="Durability" value={hero.powerstats.durability} />
 
-        {params.connections.groupAffiliation !== '-' && (
-          <Text
-            marginTop={32}
-            fontSize={16}
-            fontFamily={Typography.INTER_REGULAR}
-            lineHeight={21}
-            color={Colors.GRAY}
-            textAlign="justify"
-          >
-            Among his connections,
-            {' '}
-            {params.name}
-            {' '}
-            has affiliation in the group(s):
-            {' '}
-            {params.connections.groupAffiliation}
-            .
-          </Text>
-        )}
+              <CircularProgress title="Power" value={hero.powerstats.power} />
 
-        <CircularProgressWrapper>
-          <CircularProgress title="Intelligence" value={params.powerstats.intelligence} />
+              <CircularProgress title="Combat" value={hero.powerstats.combat} />
+            </CircularProgressWrapper>
 
-          <CircularProgress title="Strength" value={params.powerstats.strength} />
+            <Text
+              marginTop={48}
+              fontSize={24}
+              fontFamily={Typography.INTER_MEDIUM}
+            >
+              Details
+            </Text>
 
-          <CircularProgress title="Speed" value={params.powerstats.speed} />
+            <HeroDetailRow title="Aliases" detail={hero.biography.aliases.join(', ')} />
 
-          <CircularProgress title="Durability" value={params.powerstats.durability} />
+            <HeroDetailRow title="Alter Egos" detail={hero.biography.alterEgos} />
 
-          <CircularProgress title="Power" value={params.powerstats.power} />
-
-          <CircularProgress title="Combat" value={params.powerstats.combat} />
-        </CircularProgressWrapper>
-
-        <Text
-          marginTop={48}
-          fontSize={24}
-          fontFamily={Typography.INTER_MEDIUM}
-        >
-          Details
-        </Text>
-
-        <HeroDetailRow title="Aliases" detail={params.biography.aliases.join(', ')} />
-
-        <HeroDetailRow title="Alter Egos" detail={params.biography.alterEgos} />
-
-        <HeroDetailRow title="Relatives" detail={params.connections.relatives} />
-      </HeroCharacteristicsWrapper>
+            <HeroDetailRow title="Relatives" detail={hero.connections.relatives} />
+          </HeroCharacteristicsWrapper>
+        </>
+      ) : (
+        <LoadingWrapper>
+          <Loading />
+        </LoadingWrapper>
+      )}
     </Container>
   );
 }

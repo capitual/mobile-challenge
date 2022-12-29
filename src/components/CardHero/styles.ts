@@ -3,7 +3,7 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import FastImage from 'react-native-fast-image';
 import { Colors } from '../../config';
 
-export const Container = styled.TouchableOpacity`
+export const Wrapper = styled.TouchableOpacity`
   flex-direction: row;
 
   width: 100%;

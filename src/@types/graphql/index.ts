@@ -1,4 +1,4 @@
-export type HeroTypename = 'Heroes';
+export type HeroTypename = 'Heroes' | 'Hero';
 
 interface HeroBiography {
   aliases: string[];
@@ -50,6 +50,17 @@ export interface Hero {
   work: HeroWork;
 }
 
+export interface Heroes {
+  id: number;
+  name: string;
+  biography: Pick<HeroBiography, 'fullName'>;
+  images: Pick<HeroImages, 'sm'>
+}
+
 export interface AllHeroes {
-  all: Hero[];
+  all: Heroes[];
+}
+
+export interface GetHero {
+  getHero: Hero;
 }

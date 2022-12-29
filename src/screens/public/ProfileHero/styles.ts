@@ -1,6 +1,8 @@
 import styled from 'styled-components/native';
-import { Platform, FlatList } from 'react-native';
+import { Platform } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
+import BigList from 'react-native-big-list';
+
 import { Colors } from '../../../config/colors';
 import { Hero } from '../../../@types';
 
@@ -29,7 +31,7 @@ export const HeaderContainer = styled.View`
   padding: ${RFValue(40)}px 0 ${RFValue(20)}px;
 `;
 
-export const HeroesList = styled(FlatList as new () => FlatList<Hero>).attrs({
+export const HeroesList = styled(BigList as new () => BigList<Hero>).attrs({
   contentContainerStyle: {
     flexGrow: 1,
   },

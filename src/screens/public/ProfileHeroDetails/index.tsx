@@ -98,31 +98,31 @@ export function ProfileHeroDetails() {
           is a
           {' '}
           {params.biography.publisher}
-          {' '}
-          character who first appeared in
-          &quot;
-          {params.biography.firstAppearance}
-          &quot;.
+          {params.biography.firstAppearance !== '-'
+            ? ` character who first appeared in "${params.biography.firstAppearance}".`
+            : '.'}
           {params.work.base !== '-' && ` Is based on ${params.work.base}.`}
         </Text>
 
-        <Text
-          marginTop={32}
-          fontSize={16}
-          fontFamily={Typography.INTER_REGULAR}
-          lineHeight={21}
-          color={Colors.GRAY}
-          textAlign="justify"
-        >
-          Among his connections,
-          {' '}
-          {params.name}
-          {' '}
-          has affiliation in the group(s):
-          {' '}
-          {params.connections.groupAffiliation}
-          .
-        </Text>
+        {params.connections.groupAffiliation !== '-' && (
+          <Text
+            marginTop={32}
+            fontSize={16}
+            fontFamily={Typography.INTER_REGULAR}
+            lineHeight={21}
+            color={Colors.GRAY}
+            textAlign="justify"
+          >
+            Among his connections,
+            {' '}
+            {params.name}
+            {' '}
+            has affiliation in the group(s):
+            {' '}
+            {params.connections.groupAffiliation}
+            .
+          </Text>
+        )}
 
         <CircularProgressWrapper>
           <CircularProgress title="Intelligence" value={params.powerstats.intelligence} />

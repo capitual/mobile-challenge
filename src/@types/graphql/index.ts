@@ -1,4 +1,4 @@
-export type HeroTypename = 'Heroes'
+export type HeroTypename = 'Heroes';
 
 interface HeroBiography {
   aliases: string[];
@@ -10,21 +10,21 @@ interface HeroBiography {
 }
 
 interface HeroConnections {
-  groupAffiliation: string; 
+  groupAffiliation: string;
   relatives: string;
 }
 
 interface HeroImages {
-  lg: string; 
+  lg: string;
   sm: string;
 }
 
 interface HeroPowerstats {
-  combat: number; 
-  durability: number; 
-  intelligence: number; 
-  power: number; 
-  speed: number; 
+  combat: number;
+  durability: number;
+  intelligence: number;
+  power: number;
+  speed: number;
   strength: number;
 }
 
@@ -32,17 +32,24 @@ interface HeroWork {
   base: string;
 }
 
+interface HeroAppearance {
+  race: string;
+  height: string[];
+  weight: string[];
+}
+
 export interface Hero {
   __typename: HeroTypename;
+  appearance: HeroAppearance;
   biography: HeroBiography;
   connections: HeroConnections;
   id: number;
-  images: HeroImages; 
+  images: HeroImages;
   name: string;
   powerstats: HeroPowerstats;
   work: HeroWork;
 }
 
 export interface AllHeroes {
-  all?: Hero[] 
+  all: Hero[];
 }

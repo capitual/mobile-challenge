@@ -1,9 +1,9 @@
+import React, { useState, useCallback } from 'react';
+import { TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { useQuery } from '@apollo/client';
 import { useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
-import { TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
-import { AllHeroes } from '../../../@types';
+import { AllHeroes, Hero, ProfileHeroRenderItem } from '../../../@types';
 import {
   Button,
   CardHero,
@@ -21,15 +21,29 @@ import {
 } from './styles';
 
 export function ProfileHero() {
-  const {data, error, loading} = useQuery<AllHeroes>(ALL_HEROES)
+  const { data, error, loading } = useQuery<AllHeroes>(ALL_HEROES);
 
   const navigation = useNavigation();
 
   const [searchText, setSearchText] = useState<string>('');
 
-  const [heroes, setHeroes] = useState([0]);
-
   const [inputIsFocused, setInputIsFocused] = useState<boolean>(false);
+
+  const keyExtractor = useCallback((item: Hero) => item.id.toString(), []);
+
+  const renderItem = useCallback(({ item }: ProfileHeroRenderItem) => (
+    <CardHero
+      onPress={() => navigation.navigate(
+        'ProfileHeroDetails' as never,
+        { ...item } as never,
+      )}
+      fullName={item.biography.fullName}
+      name={item.name}
+      image={item.images.sm}
+    />
+  ), [navigation]);
+
+  if (loading) return <Container />;
 
   return (
     <Container>
@@ -58,7 +72,7 @@ export function ProfileHero() {
             textContentType="nickname"
           />
 
-          {heroes.length !== 0 && (
+          {data && data.all.length !== 0 && (
             <Text
               marginTop={42}
               marginBottom={24}
@@ -71,18 +85,9 @@ export function ProfileHero() {
           )}
 
           <HeroesList
-            data={heroes}
-            renderItem={() => (
-              <CardHero
-                onPress={() => navigation.navigate('ProfileHeroDetails' as never)}
-                fullName="Daniel Sansão Araldi"
-                name="Daniel"
-                image="https://cdn.jsdelivr.net/gh/akabab/superhero-api@0.3.0/api/images/sm/731-zoom.jpg"
-              />
-            )}
-            getItemLayout={(_, index) => (
-              { length: RFValue(67), offset: RFValue(67) * index, index }
-            )}
+            data={data?.all}
+            renderItem={renderItem}
+            keyExtractor={keyExtractor}
             ListEmptyComponent={(
               <ListEmptyWrapper>
                 <SearchIcon
@@ -113,7 +118,7 @@ export function ProfileHero() {
                 </Text>
               </ListEmptyWrapper>
             )}
-            ListFooterComponent={heroes.length > 10 ? (
+            ListFooterComponent={data && data.all.length > 10 ? (
               <Button>
                 <Text
                   fontSize={12}

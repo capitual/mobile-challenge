@@ -12,7 +12,7 @@
     "resolveJsonModule": true,
     "module": "CommonJS",
     "target": "ES2022",
-    "lib": ["ESNext"],
+    "lib": ["ES2022"],
     "rootDir": "./src",
     "types": ["react-native", "styled-components-react-native"]
   },

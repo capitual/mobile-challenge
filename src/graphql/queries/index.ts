@@ -5,6 +5,11 @@ export const ALL_HEROES = gql`
     all @rest(type: "Heroes", path: "all.json") {
       id
       name
+      appearance {
+        race
+        height
+        weight
+      }
       powerstats {
         intelligence
         strength

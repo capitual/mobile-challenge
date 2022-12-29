@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { RFValue } from 'react-native-responsive-fontsize';
 
 import {
@@ -27,14 +27,18 @@ import {
   HeroNameWrapper,
   HeroTraitWrapper,
 } from './styles';
+import { Hero } from '../../../@types';
 
 export function ProfileHeroDetails() {
   const navigation = useNavigation();
+  const route = useRoute();
+
+  const params = route.params as Hero;
 
   return (
     <Container>
       <HeroBackgroundImage
-        source={{ uri: 'https://cdn.jsdelivr.net/gh/akabab/superhero-api@0.3.0/api/images/lg/731-zoom.jpg' }}
+        source={{ uri: params.images.lg }}
       >
         <Gradient>
           <GoBackButton onPress={navigation.goBack} activeOpacity={0.75}>
@@ -46,25 +50,25 @@ export function ProfileHeroDetails() {
           </GoBackButton>
 
           <HeroNameWrapper>
-            <Text
-              marginBottom={8}
-              fontSize={16}
-              fontFamily={Typography.INTER_REGULAR}
-              lineHeight={21}
-              numberOfLines={1}
-              ellipsizeMode="tail"
-            >
-              Hunter Zolomon
-            </Text>
+            {params.biography.fullName && (
+              <Text
+                marginBottom={8}
+                fontSize={16}
+                fontFamily={Typography.INTER_REGULAR}
+                lineHeight={21}
+                numberOfLines={1}
+                ellipsizeMode="tail"
+              >
+                {params.biography.fullName}
+              </Text>
+            )}
 
             <Text
               fontSize={48}
               fontFamily={Typography.INTER_BOLD}
               lineHeight={57}
-              numberOfLines={1}
-              ellipsizeMode="tail"
             >
-              Zoom
+              {params.name}
             </Text>
           </HeroNameWrapper>
         </Gradient>
@@ -72,13 +76,13 @@ export function ProfileHeroDetails() {
 
       <HeroCharacteristicsWrapper>
         <HeroTraitWrapper>
-          <HeroTrait icon={ScaleIcon} value="1,85m" />
+          <HeroTrait icon={ScaleIcon} value={params.appearance.height[1]} />
 
-          <HeroTrait icon={WeightIcon} value="81 kg" />
+          <HeroTrait icon={WeightIcon} value={params.appearance.weight[1]} />
 
-          <HeroTrait icon={TwoFaceIcon} value="Bad" />
+          <HeroTrait icon={TwoFaceIcon} value={params.biography.alignment} />
 
-          <HeroTrait icon={AlienIcon} value="Human" />
+          <HeroTrait icon={AlienIcon} value={params.appearance.race} />
         </HeroTraitWrapper>
 
         <Text
@@ -88,25 +92,50 @@ export function ProfileHeroDetails() {
           color={Colors.GRAY}
           textAlign="justify"
         >
-          Zoom (Hunter Zolomon) is a DC Comics character who first appeared in
-          &quot;Flash Secret Files #3&quot;. Is based on Keystone City, Kansas.
+          {params.name}
+          {' '}
+          {params.biography.fullName ? `(${params.biography.fullName}) ` : ' '}
+          is a
+          {' '}
+          {params.biography.publisher}
+          {' '}
+          character who first appeared in
+          &quot;
+          {params.biography.firstAppearance}
+          &quot;.
+          {params.work.base !== '-' && ` Is based on ${params.work.base}.`}
+        </Text>
 
-          Among his connections, Zoom has affiliation in the group(s): Secret
-          Society of Super Villains, formerly Keystone Police Department, F.B.I..
+        <Text
+          marginTop={32}
+          fontSize={16}
+          fontFamily={Typography.INTER_REGULAR}
+          lineHeight={21}
+          color={Colors.GRAY}
+          textAlign="justify"
+        >
+          Among his connections,
+          {' '}
+          {params.name}
+          {' '}
+          has affiliation in the group(s):
+          {' '}
+          {params.connections.groupAffiliation}
+          .
         </Text>
 
         <CircularProgressWrapper>
-          <CircularProgress title="Intelligence" value={50} />
+          <CircularProgress title="Intelligence" value={params.powerstats.intelligence} />
 
-          <CircularProgress title="Strength" value={10} />
+          <CircularProgress title="Strength" value={params.powerstats.strength} />
 
-          <CircularProgress title="Speed" value={100} />
+          <CircularProgress title="Speed" value={params.powerstats.speed} />
 
-          <CircularProgress title="Durability" value={28} />
+          <CircularProgress title="Durability" value={params.powerstats.durability} />
 
-          <CircularProgress title="Power" value={100} />
+          <CircularProgress title="Power" value={params.powerstats.power} />
 
-          <CircularProgress title="Combat" value={28} />
+          <CircularProgress title="Combat" value={params.powerstats.combat} />
         </CircularProgressWrapper>
 
         <Text
@@ -117,11 +146,11 @@ export function ProfileHeroDetails() {
           Details
         </Text>
 
-        <HeroDetailRow title="Aliases" detail="-" />
+        <HeroDetailRow title="Aliases" detail={params.biography.aliases.join(', ')} />
 
-        <HeroDetailRow title="Alter Egos" detail="No alter egos found." />
+        <HeroDetailRow title="Alter Egos" detail={params.biography.alterEgos} />
 
-        <HeroDetailRow title="Relatives" detail="Ashley Zolomon (ex-wife)" />
+        <HeroDetailRow title="Relatives" detail={params.connections.relatives} />
       </HeroCharacteristicsWrapper>
     </Container>
   );

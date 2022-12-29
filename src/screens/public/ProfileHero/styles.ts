@@ -1,7 +1,8 @@
 import styled from 'styled-components/native';
+import { Platform, FlatList } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
-import { Platform } from 'react-native';
 import { Colors } from '../../../config/colors';
+import { Hero } from '../../../@types';
 
 export const Container = styled.KeyboardAvoidingView.attrs({
   behavior: Platform.OS === 'ios' ? 'padding' : 'height',
@@ -28,7 +29,7 @@ export const HeaderContainer = styled.View`
   padding: ${RFValue(40)}px 0 ${RFValue(20)}px;
 `;
 
-export const HeroesList = styled.FlatList.attrs({
+export const HeroesList = styled(FlatList as new () => FlatList<Hero>).attrs({
   contentContainerStyle: {
     flexGrow: 1,
   },
@@ -37,8 +38,6 @@ export const HeroesList = styled.FlatList.attrs({
   },
   showsVerticalScrollIndicator: false,
 })`
-  flex: 1;
-
   width: 100%;
 `;
 

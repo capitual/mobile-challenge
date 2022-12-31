@@ -1,8 +1,8 @@
 import React from 'react';
-import ProfileHeroScreen from './src/screens/profileHeroScreen';
+import Routes from './src/routes';
 
 function App() {
-  return <ProfileHeroScreen />;
+  return <Routes />;
 }
 
 export default App;

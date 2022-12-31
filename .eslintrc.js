@@ -16,6 +16,7 @@ module.exports = {
   plugins: ['@typescript-eslint'],
   rules: {
     'import/no-unresolved': 'off',
+    'import/prefer-default-export': 0,
     'import/extensions': [
       'error',
       'ignorePackages',

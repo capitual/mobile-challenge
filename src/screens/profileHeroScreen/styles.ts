@@ -1,8 +1,7 @@
 import styled from 'styled-components/native';
+import { Colors } from '../../assets/colors';
 
 export const Container = styled.View`
   flex: 1;
-  background-color: red;
+  background-color: ${Colors.BLACK_100};
 `;
-
-export const Teste = styled.Button``;

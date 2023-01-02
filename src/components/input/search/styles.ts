@@ -9,7 +9,8 @@ export const Container = styled.View`
 
   width: 100%;
   height: ${RFValue(50)}px;
-  padding: ${RFValue(10)}px;
+  padding-left: ${RFValue(10)}px;
+  padding-right: ${RFValue(10)}px;
 
   background-color: ${Colors.DARKGRAY_100};
 

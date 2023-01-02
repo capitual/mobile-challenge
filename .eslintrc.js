@@ -23,6 +23,7 @@ module.exports = {
     ],
     'import/no-unresolved': 'off',
     'import/prefer-default-export': 0,
+    'object-curly-newline': 'off',
     'import/extensions': [
       'error',
       'ignorePackages',

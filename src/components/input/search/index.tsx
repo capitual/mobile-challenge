@@ -2,13 +2,16 @@
 import React from 'react';
 
 import { RFValue } from 'react-native-responsive-fontsize';
+import { TextInputProps } from 'react-native';
 
 import { Container, IconWrapper, SearchInput } from './styles';
 
 import SearchIcon from '../../../assets/icons/Search.svg';
 import CloseIcon from '../../../assets/icons/Close.svg';
 
-function Search({ ...rest }) {
+type SearchProps = TextInputProps;
+
+function Search({ ...rest }: SearchProps) {
   return (
     <Container>
       <IconWrapper>

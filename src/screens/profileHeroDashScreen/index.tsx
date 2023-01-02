@@ -1,11 +1,14 @@
-import React from 'react';
-import { Text } from 'react-native';
-import { Container } from './styles';
+import React, { useState } from 'react';
+import Search from '../../components/input/search';
+import { Container, Title } from './styles';
 
 function ProfileHeroDashScreen() {
+  const [searchInput, setSearchInput] = useState('');
+
   return (
     <Container>
-      <Text>Profile HERO</Text>
+      <Title>ProfileHero</Title>
+      <Search onChangeText={setSearchInput} value={searchInput} />
     </Container>
   );
 }

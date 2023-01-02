@@ -1,0 +1,29 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/App.tsx",
+      "sha1": "60e84f3faf0e66dea97edd3ac790a21d59ea42b7"
+    },
+    {
+      "path": "src/assets/typography/Inter-Bold.ttf",
+      "sha1": "48747b7a60086f97af0d373febcbd1f1bee87f17"
+    },
+    {
+      "path": "src/assets/typography/Inter-Medium.ttf",
+      "sha1": "a418a8ba73bbcfa8c131c426ab836d78457afa9b"
+    },
+    {
+      "path": "src/assets/typography/Inter-Regular.ttf",
+      "sha1": "7237d9cf55f177702066a28a4dde1e4c7e8ab576"
+    },
+    {
+      "path": "src/config/colors.ts",
+      "sha1": "97c206634541450a4afe2acdb12cabf64720f678"
+    },
+    {
+      "path": "src/config/typography.ts",
+      "sha1": "9bc028829a13f680d27eb4735ee1331fd9981ec4"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "extends": "@tsconfig/react-native/tsconfig.json",
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "isolatedModules": true,
+    "removeComments": true,
+    "resolveJsonModule": true,
+    "module": "CommonJS",
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "rootDir": "./src",
+    "types": ["react-native", "styled-components-react-native"]
+  },
+  "exclude": [
+    "./.bundle", 
+    "./node_modules", 
+    "./ios", 
+    "./android", 
+    "./__tests__"
+  ],
+  "include": ["./src"]
+}

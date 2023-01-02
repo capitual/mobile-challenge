@@ -1,4 +1,4 @@
-# Mobile Capital Team Technical Challenge
+# Capital Mobile Team Technical Challenge
 
 Welcome to Capital!
 This test will serve to inform us a little more about your technical skills in application development with React Native. A few days after finishing the challenge, we'll send you feedback with our impressions and a possible invitation to a more detailed conversation about the decisions you made during development.

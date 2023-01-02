@@ -17,11 +17,11 @@ import {
 
 interface HeroCardProps extends TouchableOpacityProps {
   name: string;
-  realName: string;
+  slug: string;
   imageURI: string;
 }
 
-function HeroCard({ name, realName, imageURI, ...rest }: HeroCardProps) {
+function HeroCard({ name, slug, imageURI, ...rest }: HeroCardProps) {
   return (
     <Container {...rest}>
       <ImageWrapper>
@@ -29,7 +29,7 @@ function HeroCard({ name, realName, imageURI, ...rest }: HeroCardProps) {
       </ImageWrapper>
       <InformationWrapper>
         <HeroName>{name}</HeroName>
-        <HeroRealName>{realName}</HeroRealName>
+        <HeroRealName>{slug}</HeroRealName>
       </InformationWrapper>
       <IconWrapper>
         <ArrowRightIcon width={RFValue(16)} height={RFValue(16)} />

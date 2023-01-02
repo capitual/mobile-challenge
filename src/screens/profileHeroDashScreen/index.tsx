@@ -3,8 +3,10 @@ import React, { useState } from 'react';
 
 import { mock } from '../../assets/mock';
 
+import EmptyList from '../../components/emptyList';
 import HeroCard from '../../components/heroCard';
 import Search from '../../components/input/search';
+
 import { Container, Separator, Subtitle, Title } from './styles';
 
 function ProfileHeroDashScreen() {
@@ -17,11 +19,12 @@ function ProfileHeroDashScreen() {
       <Subtitle>Leaderboard</Subtitle>
       <FlashList
         data={mock}
+        ListEmptyComponent={EmptyList}
         ItemSeparatorComponent={Separator}
         renderItem={({ item }) => (
           <HeroCard
             name={item.name}
-            realName={item.realName}
+            slug={item.realName}
             imageURI={item.imageURI}
           />
         )}

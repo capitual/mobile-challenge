@@ -15,6 +15,12 @@ module.exports = {
   ignorePatterns: ['.eslintrc.js'],
   plugins: ['@typescript-eslint'],
   rules: {
+    'react/jsx-props-no-spreading': [
+      'error',
+      {
+        custom: 'ignore',
+      },
+    ],
     'import/no-unresolved': 'off',
     'import/prefer-default-export': 0,
     'import/extensions': [

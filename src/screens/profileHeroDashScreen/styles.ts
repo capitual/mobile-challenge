@@ -22,3 +22,17 @@ export const Title = styled.Text`
 
   margin-bottom: ${RFValue(24)}px;
 `;
+
+export const Subtitle = styled.Text`
+  font-family: ${Fonts.INTER_MEDIUM};
+  font-size: ${RFValue(24)}px;
+  color: ${Colors.WHITE_100};
+
+  margin-top: ${RFValue(42)}px;
+  margin-bottom: ${RFValue(24)}px;
+`;
+
+export const Separator = styled.View`
+  height: ${RFValue(16)}px;
+  background-color: transparent;
+`;

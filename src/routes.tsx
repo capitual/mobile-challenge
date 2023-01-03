@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-closing-bracket-location */
 import React from 'react';
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -13,8 +14,7 @@ function MainRoute() {
       initialRouteName="profileHeroDashScreen"
       screenOptions={{
         headerShown: false,
-      }}
-    >
+      }}>
       <StackNav.Screen
         name="profileHeroDashScreen"
         component={ProfileHeroDashScreen}
